@@ -30,55 +30,44 @@ class DataLoader {
         
         var result:[ExhibitionVO] = []
         
-        guard let url = Bundle.main.url(forResource: "exhibitions", withExtension: "json") else {
-            return result
-        }
+        let exhibitionArray = loadData(forResource: "exhibitions")
         
-        guard let exhibitionsRawData = try? Data(contentsOf: url) else {
-            return result
-        }
-        
-        guard let exhibitionsRawArray = try? JSONSerialization.jsonObject(with: exhibitionsRawData) as? [[String: Any]] else {
-            return result
-        }
-        
-        if let array = exhibitionsRawArray {
-            for exhibitionDictionary in array {
+        for exhibitionDictionary in exhibitionArray {
+            
+            var works: [WorkVO] = []
+            
+            let worksArray = exhibitionDictionary["works"] as? Array<[String:String]>
+            
+            if let worksArray = worksArray  {
                 
-                var works: [WorkVO] = []
-                
-                let worksArray = exhibitionDictionary["works"] as? Array<[String:String]>
-                
-                if let worksArray = worksArray  {
+                for work in worksArray {
                     
-                    for work in worksArray {
-                        
-                        if let workID = work["objectId"] {
-                            if let newWork = allWorks[workID] {
-                                works.append(newWork)
-                            }
+                    if let workID = work["objectId"] {
+                        if let newWork = allWorks[workID] {
+                            works.append(newWork)
                         }
                     }
                 }
-                var galleryID:String = exhibitionDictionary["_p_gallery"] as! String
-                galleryID = galleryID.components(separatedBy: "$").last!
+            }
+            var galleryID:String = exhibitionDictionary["_p_gallery"] as! String
+            galleryID = galleryID.components(separatedBy: "$").last!
+            
+            if let gallery = galleries[galleryID] {
                 
-                if let gallery = galleries[galleryID] {
-                    
-                    let exhibition = ExhibitionVO(
-                        id: exhibitionDictionary["_id"] as? String,
-                        name: exhibitionDictionary["name"] as! String,
-                        about: exhibitionDictionary["about"] as? String,
-                        authorName: exhibitionDictionary["authorName"] as? String,
-                        authorDescription: exhibitionDictionary["authorDescription"] as? String,
-                        startDate: Date.from(string: exhibitionDictionary["dateStart"] as? String),
-                        endDate: Date.from(string: exhibitionDictionary["dateEnd"] as? String),
-                        gallery: gallery,
-                        works: works
-                    )
-                    
-                    result.append(exhibition)
-                }
+                let exhibition = ExhibitionVO(
+                    id: exhibitionDictionary["_id"] as? String,
+                    name: exhibitionDictionary["name"] as! String,
+                    about: exhibitionDictionary["about"] as? String,
+                    authorName: exhibitionDictionary["authorName"] as? String,
+                    authorDescription: exhibitionDictionary["authorDescription"] as? String,
+                    startDate: Date.from(string: exhibitionDictionary["dateStart"] as? String),
+                    endDate: Date.from(string: exhibitionDictionary["dateEnd"] as? String),
+                    gallery: gallery,
+                    works: works
+                )
+                
+                result.append(exhibition)
+                
             }
         }
         
@@ -89,75 +78,74 @@ class DataLoader {
         
         var result:[String: GalleryVO] = [:]
         
-        guard let url = Bundle.main.url(forResource: "galleries", withExtension: "json") else {
-            return result
-        }
+        let galleriesArray = loadData(forResource: "galleries")
         
-        guard let galleriesRawData = try? Data(contentsOf: url) else {
-            return result
-        }
-        
-        guard let galleriesRawArray = try? JSONSerialization.jsonObject(with: galleriesRawData) as? [[String: Any]] else {
-            return result
-        }
-        
-        if let array = galleriesRawArray {
-            for galleryDictionary in array {
-                
-                let gallery = GalleryVO(
-                    id: galleryDictionary["_id"] as! String,
-                    name: galleryDictionary["name"] as! String,
-                    galleryDescription: galleryDictionary["galleryDescription"] as? String,
-                    email: galleryDictionary["email"] as? String,
-                    facebook: galleryDictionary["facebook"] as? String,
-                    city: galleryDictionary["city"] as? String)
-                
-                result[gallery.id] = gallery
-            }
+        for galleryDictionary in galleriesArray {
+            
+            let gallery = GalleryVO(
+                id: galleryDictionary["_id"] as! String,
+                name: galleryDictionary["name"] as! String,
+                galleryDescription: galleryDictionary["galleryDescription"] as? String,
+                email: galleryDictionary["email"] as? String,
+                facebook: galleryDictionary["facebook"] as? String,
+                city: galleryDictionary["city"] as? String)
+            
+            result[gallery.id] = gallery
+            
         }
         
         return result
     }
     
-    func loadWorks() -> [String:WorkVO] {
+    private func loadWorks() -> [String:WorkVO] {
         
         var result:[String:WorkVO] = [:]
         
-        guard let url = Bundle.main.url(forResource: "works", withExtension: "json") else {
-            return result
+        let worksArray = loadData(forResource: "works")
+        
+        for workDictionary in worksArray {
+            
+            let work = WorkVO(
+                id: workDictionary["_id"] as! String,
+                title: workDictionary["title"] as? String,
+                author: workDictionary["author"] as? String,
+                size: workDictionary["size"] as? String,
+                type: workDictionary["type"] as? String,
+                year: workDictionary["year"] as? Int,
+                updatedAt: Date.from(string: workDictionary["_created_at"] as? String),
+                createdAt: Date.from(string: workDictionary["_updated_at"] as? String)
+            )
+            
+            result[work.id] = work
+            
+            
+            
         }
         
-        guard let worksRawData = try? Data(contentsOf: url) else {
-            return result
-        }
-        
-        guard let worksRawArray = try? JSONSerialization.jsonObject(with: worksRawData) as? [[String: Any]] else {
-            return result
-        }
-        
-        if let array = worksRawArray {
-            for workDictionary in array {
-                
-                let work = WorkVO(
-                    id: workDictionary["_id"] as! String,
-                    title: workDictionary["title"] as? String,
-                    author: workDictionary["author"] as? String,
-                    size: workDictionary["size"] as? String,
-                    type: workDictionary["type"] as? String,
-                    year: workDictionary["year"] as? Int,
-                    updatedAt: Date.from(string: workDictionary["_created_at"] as? String),
-                    createdAt: Date.from(string: workDictionary["_updated_at"] as? String)
-                )
-                
-                result[work.id] = work
-                
-                
-                
-            }
-        }
         
         return result
         
+    }
+    
+    private func loadData(forResource: String) ->  [[String: Any]] {
+        
+        var result: [[String: Any]] = [[:]]
+        
+        guard let url = Bundle.main.url(forResource: forResource, withExtension: "json") else {
+            return result
+        }
+        
+        guard let rawData = try? Data(contentsOf: url) else {
+            return result
+        }
+        
+        guard let rawArray = try? JSONSerialization.jsonObject(with: rawData) as? [[String: Any]] else {
+            return result
+        }
+        if let rawArray = rawArray {
+            result = rawArray
+        }
+        return result
     }
 }
 
