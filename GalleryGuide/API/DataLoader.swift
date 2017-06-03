@@ -8,6 +8,13 @@
 
 import Foundation
 
+protocol ParseObject {
+    
+    func parseObject() -> [String:WorkVO]     ////<LoadedArray>(objects: LoadedArray) -> [String:WorkVO]
+    
+    
+}
+
 extension Date {
     static func from(string:String?) -> Date? {
         
@@ -111,9 +118,7 @@ class DataLoader {
                 author: workDictionary["author"] as? String,
                 size: workDictionary["size"] as? String,
                 type: workDictionary["type"] as? String,
-                year: workDictionary["year"] as? Int,
-                updatedAt: Date.from(string: workDictionary["_created_at"] as? String),
-                createdAt: Date.from(string: workDictionary["_updated_at"] as? String)
+                year: workDictionary["year"] as? Int
             )
             
             result[work.id] = work
@@ -127,7 +132,7 @@ class DataLoader {
         
     }
     
-    private func loadData(forResource: String) ->  [[String: Any]] {
+    func loadData(forResource: String) ->  [[String: Any]] {
         
         var result: [[String: Any]] = [[:]]
         
