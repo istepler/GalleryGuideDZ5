@@ -26,6 +26,7 @@ class DataLoader {
     func loadExhibitions() -> [ExhibitionVO]  {
         
         let galleries = loadGalleries()
+        let allWorks = loadWorks()
         
         var result:[ExhibitionVO] = []
         
@@ -44,6 +45,21 @@ class DataLoader {
         if let array = exhibitionsRawArray {
             for exhibitionDictionary in array {
                 
+                var works: [WorkVO] = []
+                
+                let worksArray = exhibitionDictionary["works"] as? Array<[String:String]>
+                
+                if let worksArray = worksArray  {
+                    
+                    for work in worksArray {
+                        
+                        if let workID = work["objectId"] {
+                            if let newWork = allWorks[workID] {
+                                works.append(newWork)
+                            }
+                        }
+                    }
+                }
                 var galleryID:String = exhibitionDictionary["_p_gallery"] as! String
                 galleryID = galleryID.components(separatedBy: "$").last!
                 
@@ -57,8 +73,10 @@ class DataLoader {
                         authorDescription: exhibitionDictionary["authorDescription"] as? String,
                         startDate: Date.from(string: exhibitionDictionary["dateStart"] as? String),
                         endDate: Date.from(string: exhibitionDictionary["dateEnd"] as? String),
-                        gallery: gallery)
-                
+                        gallery: gallery,
+                        works: works
+                    )
+                    
                     result.append(exhibition)
                 }
             }
@@ -99,6 +117,47 @@ class DataLoader {
         }
         
         return result
+    }
+    
+    func loadWorks() -> [String:WorkVO] {
+        
+        var result:[String:WorkVO] = [:]
+        
+        guard let url = Bundle.main.url(forResource: "works", withExtension: "json") else {
+            return result
+        }
+        
+        guard let worksRawData = try? Data(contentsOf: url) else {
+            return result
+        }
+        
+        guard let worksRawArray = try? JSONSerialization.jsonObject(with: worksRawData) as? [[String: Any]] else {
+            return result
+        }
+        
+        if let array = worksRawArray {
+            for workDictionary in array {
+                
+                let work = WorkVO(
+                    id: workDictionary["_id"] as! String,
+                    title: workDictionary["title"] as? String,
+                    author: workDictionary["author"] as? String,
+                    size: workDictionary["size"] as? String,
+                    type: workDictionary["type"] as? String,
+                    year: workDictionary["year"] as? Int,
+                    updatedAt: Date.from(string: workDictionary["_created_at"] as? String),
+                    createdAt: Date.from(string: workDictionary["_updated_at"] as? String)
+                )
+                
+                result[work.id] = work
+                
+                
+                
+            }
+        }
+        
+        return result
+        
     }
 }
 

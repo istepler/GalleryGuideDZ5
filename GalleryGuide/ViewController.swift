@@ -15,8 +15,10 @@ class ViewController: UIViewController {
         
         let dataLoader = DataLoader()
         let result = dataLoader.loadExhibitions()
+        print(result[0].works) // test works connected to exhibitions
+        //let result = dataLoader.loadWorks() // printing to test works loading
         
-        print("Result: \(result)")
+       // print("Result: \(result)")
     }
 
     override func didReceiveMemoryWarning() {

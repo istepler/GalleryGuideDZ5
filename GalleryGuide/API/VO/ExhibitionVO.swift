@@ -17,4 +17,5 @@ struct ExhibitionVO {
     var startDate:Date?
     var endDate:Date?
     var gallery:GalleryVO
+    var works: [WorkVO]
 }

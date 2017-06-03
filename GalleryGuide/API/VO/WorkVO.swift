@@ -7,3 +7,19 @@
 //
 
 import Foundation
+
+
+struct WorkVO {
+    
+    var id: String!
+    var title: String?
+    var author: String?
+    var size: String?
+    var type: String?
+    var year: Int?
+    var updatedAt: Date?
+    var createdAt: Date?
+    
+    
+    
+}
