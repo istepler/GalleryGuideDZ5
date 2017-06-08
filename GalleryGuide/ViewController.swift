@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         
         
         let dataLoader = DataLoader()
-        print(dataLoader.loadGalleries())
+        print(dataLoader.loadExhibitions())
         //let result = dataLoader.loadExhibitions()
         //print(result[0].works) // test works connected to exhibitions
         //print(result[0].gallery)

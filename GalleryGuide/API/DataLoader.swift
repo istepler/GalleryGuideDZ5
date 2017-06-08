@@ -33,6 +33,7 @@ class DataLoader {
     
     func loadExhibitions() -> [ExhibitionVO]  {
         
+        
         let galleries = loadGalleries()
         let allWorks = loadWorks()
         
@@ -44,6 +45,7 @@ class DataLoader {
         let exhibitionArray = loadData(forResource: "exhibitions")
         
         for exhibitionDictionary in exhibitionArray {
+            
             
             var works: [WorkVO] = []
             
@@ -66,10 +68,16 @@ class DataLoader {
             if let gallery = galleries[galleryID] {
                 
                 var exhibition = ExhibitionVO()
+                exhibition.parse(json: exhibitionDictionary)
                 
-            
+                exhibition.gallery = gallery
+                exhibition.works = works
                 
-               result.append(exhibition)
+                
+                
+                result.append(exhibition) /// chek for optional
+                
+              
                 
             }
         }
@@ -87,6 +95,7 @@ class DataLoader {
             
             var gallery = GalleryVO()
             gallery.parse(json: galleryDictionary)
+            
             result[gallery.id] = gallery
         }
         
@@ -170,16 +179,18 @@ extension WorkVO: Parsable {
 
 extension ExhibitionVO: Parsable {
 
-    mutating func parse(json: [String : Any]) {
-        id = json["_id"] as? String
-        self.name = json["name"] as! String
+   mutating func parse(json: [String : Any]) {
+    
+    
+        self.id = json["_id"] as? String
+        self.name = json["name"] as? String ////// the problem was here, when the name: String in structure
         self.about = json["about"] as? String
         self.authorName = json["authorName"] as? String
         self.authorDescription = json["authorDescription"] as? String
-        //self.startDate = Date.from(string: json["dateStart"] as? String)
-        //self.endDate = Date.from(string: json["dateEnd"] as? String)
-        //self.gallery = nil
-        //self.works = nil
+        self.startDate = Date.from(string: json["dateStart"] as? String)
+        self.endDate = Date.from(string: json["dateEnd"] as? String)
+        self.gallery = nil
+       self.works = nil
         
 
     }

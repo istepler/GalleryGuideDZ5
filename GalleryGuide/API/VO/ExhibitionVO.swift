@@ -10,12 +10,12 @@ import Foundation
 
 struct ExhibitionVO {
     var id:String?
-    var name:String
-    var about:String?
-    var authorName:String?
-    var authorDescription:String?
-  //  var startDate:Date?
-    //var endDate:Date?
-    //var gallery:GalleryVO?
-    //var works: [WorkVO]?
+    var name:String?
+    var about:String!
+    var authorName:String!
+    var authorDescription:String!
+    var startDate:Date?
+    var endDate:Date?
+    var gallery:GalleryVO?
+    var works: [WorkVO]?
 }
