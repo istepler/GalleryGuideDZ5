@@ -8,12 +8,6 @@
 
 import Foundation
 
-protocol ParseObject {
-    
-    func parseObject() -> [String:WorkVO]     ////<LoadedArray>(objects: LoadedArray) -> [String:WorkVO]
-    
-    
-}
 
 extension Date {
     static func from(string:String?) -> Date? {
@@ -30,6 +24,13 @@ extension Date {
 
 class DataLoader {
     
+    //    func load<T: Parsable> (filename: String) -> T {
+    //        var result:
+    //
+    //   }
+    
+    
+    
     func loadExhibitions() -> [ExhibitionVO]  {
         
         let galleries = loadGalleries()
@@ -37,13 +38,16 @@ class DataLoader {
         
         var result:[ExhibitionVO] = []
         
+        
+        
+        
         let exhibitionArray = loadData(forResource: "exhibitions")
         
         for exhibitionDictionary in exhibitionArray {
             
             var works: [WorkVO] = []
             
-            let worksArray = exhibitionDictionary["works"] as? Array<[String:String]>
+            let worksArray = exhibitionDictionary["works"] as? [[String:String]]
             
             if let worksArray = worksArray  {
                 
@@ -61,19 +65,11 @@ class DataLoader {
             
             if let gallery = galleries[galleryID] {
                 
-                let exhibition = ExhibitionVO(
-                    id: exhibitionDictionary["_id"] as? String,
-                    name: exhibitionDictionary["name"] as! String,
-                    about: exhibitionDictionary["about"] as? String,
-                    authorName: exhibitionDictionary["authorName"] as? String,
-                    authorDescription: exhibitionDictionary["authorDescription"] as? String,
-                    startDate: Date.from(string: exhibitionDictionary["dateStart"] as? String),
-                    endDate: Date.from(string: exhibitionDictionary["dateEnd"] as? String),
-                    gallery: gallery,
-                    works: works
-                )
+                var exhibition = ExhibitionVO()
                 
-                result.append(exhibition)
+            
+                
+               result.append(exhibition)
                 
             }
         }
@@ -81,7 +77,7 @@ class DataLoader {
         return result
     }
     
-    private func loadGalleries() -> [String: GalleryVO] {
+    func loadGalleries() -> [String: GalleryVO] {
         
         var result:[String: GalleryVO] = [:]
         
@@ -89,22 +85,16 @@ class DataLoader {
         
         for galleryDictionary in galleriesArray {
             
-            let gallery = GalleryVO(
-                id: galleryDictionary["_id"] as! String,
-                name: galleryDictionary["name"] as! String,
-                galleryDescription: galleryDictionary["galleryDescription"] as? String,
-                email: galleryDictionary["email"] as? String,
-                facebook: galleryDictionary["facebook"] as? String,
-                city: galleryDictionary["city"] as? String)
-            
+            var gallery = GalleryVO()
+            gallery.parse(json: galleryDictionary)
             result[gallery.id] = gallery
-            
         }
         
         return result
+        
     }
     
-    private func loadWorks() -> [String:WorkVO] {
+    func loadWorks() -> [String:WorkVO] {
         
         var result:[String:WorkVO] = [:]
         
@@ -112,25 +102,16 @@ class DataLoader {
         
         for workDictionary in worksArray {
             
-            let work = WorkVO(
-                id: workDictionary["_id"] as! String,
-                title: workDictionary["title"] as? String,
-                author: workDictionary["author"] as? String,
-                size: workDictionary["size"] as? String,
-                type: workDictionary["type"] as? String,
-                year: workDictionary["year"] as? Int
-            )
-            
+            var work = WorkVO()
+            work.parse(json: workDictionary)
             result[work.id] = work
             
-            
-            
         }
-        
         
         return result
         
     }
+    
     
     func loadData(forResource: String) ->  [[String: Any]] {
         
@@ -153,6 +134,64 @@ class DataLoader {
         return result
     }
 }
+
+protocol Parsable {
+    mutating func parse(json: [String: Any])
+}
+
+
+extension GalleryVO: Parsable {
+    
+    mutating func parse(json: [String : Any]) {
+        self.id = json["_id"] as? String
+        self.name = json["name"] as? String
+        self.galleryDescription = json["galleryDescription"] as? String
+        self.email = json["email"] as? String
+        self.facebook = json["facebook"] as? String
+        self.city = json["city"] as? String
+        
+    }
+}
+
+extension WorkVO: Parsable {
+    
+    mutating func parse(json: [String : Any]) {
+        self.id = json["_id"] as! String
+        self.title = json["title"] as? String
+        self.author = json["author"] as? String
+        self.size = json["size"] as? String
+        self.type = json["type"] as? String
+        self.year = json["year"] as? Int
+        
+    }
+    
+    
+}
+
+extension ExhibitionVO: Parsable {
+
+    mutating func parse(json: [String : Any]) {
+        id = json["_id"] as? String
+        self.name = json["name"] as! String
+        self.about = json["about"] as? String
+        self.authorName = json["authorName"] as? String
+        self.authorDescription = json["authorDescription"] as? String
+        //self.startDate = Date.from(string: json["dateStart"] as? String)
+        //self.endDate = Date.from(string: json["dateEnd"] as? String)
+        //self.gallery = nil
+        //self.works = nil
+        
+
+    }
+    
+    
+}
+
+
+
+
+
+
 
 
 

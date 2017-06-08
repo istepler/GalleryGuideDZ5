@@ -8,17 +8,18 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource {
+class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let works = WorkVO()
-        let allWorks = works.parseObject()
-        print(allWorks)
+        //let works = WorkVO()
+        //let allWorks = works.parseObject()
+        //print(allWorks)
         
         
-        //let dataLoader = DataLoader()
+        let dataLoader = DataLoader()
+        print(dataLoader.loadGalleries())
         //let result = dataLoader.loadExhibitions()
         //print(result[0].works) // test works connected to exhibitions
         //print(result[0].gallery)

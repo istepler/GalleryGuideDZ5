@@ -14,8 +14,8 @@ struct ExhibitionVO {
     var about:String?
     var authorName:String?
     var authorDescription:String?
-    var startDate:Date?
-    var endDate:Date?
-    var gallery:GalleryVO
-    var works: [WorkVO]
+  //  var startDate:Date?
+    //var endDate:Date?
+    //var gallery:GalleryVO?
+    //var works: [WorkVO]?
 }
