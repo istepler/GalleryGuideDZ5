@@ -17,6 +17,7 @@ struct WorkVO {
     var size: String?
     var type: String?
     var year: Int?
+    var imageName: String?
         
 }
 

@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import ObjectMapper
 
 struct ExhibitionVO {
+    
+    
     var id:String?
-    var name:String?
+    var name:String!
     var about:String!
     var authorName:String!
     var authorDescription:String!
@@ -18,4 +21,18 @@ struct ExhibitionVO {
     var endDate:Date?
     var gallery:GalleryVO?
     var works: [WorkVO]?
+    
+
+    mutating func mapping(map: Map) {
+        id <- map["objectId"]
+        name <- map["name"]
+        about <- map["about"]
+        authorName <- map["authorName"]
+        authorDescription <- map["authorDescription"]
+        startDate <- map["dateStart"]
+        endDate <- map["dateEnd"]
+        gallery <- map["gallery"]
+        works <- map["works"]
+    }
+
 }

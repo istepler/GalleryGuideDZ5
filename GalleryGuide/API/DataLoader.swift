@@ -171,6 +171,7 @@ extension WorkVO: Parsable {
         self.size = json["size"] as? String
         self.type = json["type"] as? String
         self.year = json["year"] as? Int
+        self.imageName = json["imgPicture"] as? String
         
     }
     
