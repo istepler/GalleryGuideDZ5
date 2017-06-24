@@ -10,13 +10,26 @@ import UIKit
 
 class DetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource
 {
+    
+    var detailExhibition = ExhibitionVO()
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var datesLabel: UILabel!
+    @IBOutlet weak var galleryNameLabel: UILabel!
+    @IBOutlet weak var sheduleLabel: UILabel!
+    @IBOutlet weak var galleryAdressLabel: UILabel!
+    @IBOutlet weak var galleryPhoneLabel: UILabel!
+    @IBOutlet weak var galleryWebLabel: UILabel!
+    @IBOutlet weak var aboutExhibitionTextView: UITextView!
+    @IBOutlet weak var aboutArtistTextView: UITextView!
+    @IBOutlet weak var linksTextView: UITextView!
+    
+    
+    
     @IBOutlet weak var aboutGalleryTextField: UITextView!
-    
     @IBOutlet weak var worksCollectionView: UICollectionView!
-    
     @IBOutlet weak var mainStackView: UIStackView!
-   
-        
     @IBOutlet weak var galleryDetailButton: UIButton!
     
     override func viewDidLoad() {
@@ -26,7 +39,22 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         worksCollectionView.dataSource = self
         mainStackView.subviews[2].isHidden = true
         
-        aboutGalleryTextField.text = "yvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhviyvyhvi"
+        aboutGalleryTextField.text = detailExhibition.gallery?.galleryDescription
+        titleLabel.text = detailExhibition.name
+        authorLabel.text = detailExhibition.authorName
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        datesLabel.text = dateFormatter.string(from:detailExhibition.startDate!) + " - " +  dateFormatter.string(from:detailExhibition.endDate!)
+        galleryNameLabel.text = detailExhibition.gallery?.name
+        sheduleLabel.text = "don't forget"
+        galleryAdressLabel.text = detailExhibition.gallery?.city
+        galleryPhoneLabel.text = "don't forget"
+        galleryWebLabel.text = detailExhibition.gallery?.email
+        aboutExhibitionTextView.text = detailExhibition.about
+        aboutArtistTextView.text = detailExhibition.authorDescription
+        linksTextView.text = "Dont forget abour WEB site"
+        
+        
     
        // datailImageView.image = detailImage
         self.navigationController?.navigationBar.topItem?.title = ""
@@ -46,7 +74,7 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ExhibitionsModel.instance.exhibitions[0].works!.count
+        return detailExhibition.works!.count
     }
     
     
@@ -54,8 +82,19 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = worksCollectionView.dequeueReusableCell(withReuseIdentifier: "WorkCollectionViewCell", for: indexPath) as! WorkCollectionViewCell
-        cell.workImage.image = UIImage(named: (ExhibitionsModel.instance.exhibitions[2].works?[indexPath.row].imageName)!)///
+        cell.workImage.image = UIImage(named: (detailExhibition.works![indexPath.row].imageName!))///
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! UICollectionViewCell
+        let indexPath = worksCollectionView.indexPath(for: cell)
+        let index = indexPath!.row
+        let destinationVC = segue.destination as! WorkDetailViewController
+        destinationVC.work = (detailExhibition.works?[index])!
+        
+        
+        
     }
 
     @IBAction func GaleryDetailButtonPressed(_ sender: UIButton) {

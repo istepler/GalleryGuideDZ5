@@ -11,32 +11,50 @@ import UIKit
 class WorkDetailViewController: UIViewController {
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contactButton: UIButton!
+    
+    @IBOutlet weak var workImageView: UIImageView!
+    
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var workNameLabel: UILabel!
+    @IBOutlet weak var yearLabel: UILabel!
+    @IBOutlet weak var workTypeLabel: UILabel!
+    @IBOutlet weak var workSizeLabel: UILabel!
+    
+    
+    var work = WorkVO()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         shareButton.layer.borderWidth = 1.5
         shareButton.layer.cornerRadius = 30
-       shareButton.layer.borderColor = UIColor.white.cgColor
+        shareButton.layer.borderColor = UIColor.white.cgColor
         
         contactButton.layer.borderWidth = 1.5
         contactButton.layer.cornerRadius = 30
         contactButton.layer.borderColor = UIColor.white.cgColor
+        
+        
+        workImageView.image = UIImage(named: work.imageName!)
+        authorLabel.text = work.author
+        workNameLabel.text = work.title
+        if let year = work.year {
+        yearLabel.text = String(year)
+        }
+        if let type = work.type {
+            workTypeLabel.text = type
+        }
+        if let size = work.size {
+            workSizeLabel.text = size
+        }
+        
+       
+        
+        
+      
+        
+        
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+   
 }

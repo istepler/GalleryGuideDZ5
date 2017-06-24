@@ -64,6 +64,8 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
         cell.exhibitionNameLabel.text = exhibition.name
         cell.exhibitionAuthorLabel.text = exhibition.authorName
         
+        
+        
         if !exhibition.works!.isEmpty {
             
             
@@ -87,15 +89,18 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let cell = sender as! ExhibitionTVCell
+        let indexPath = tableView.indexPath(for: cell)
+        let index = indexPath?.row
         let destinationVC = segue.destination as! DetailsViewController
-        let image = cell.exhibitionWorksImage.image
-       // print(image)
-        //destinationVC.detailImage = image
+        //let image = cell.exhibitionWorksImage.image
+        let detailExhibition = ExhibitionsModel.instance.exhibitions[index!]
+        destinationVC.detailExhibition = detailExhibition
+        
+      
         
     }
     
     @IBAction func filterButtonPressed(_ sender: UIButton) {
-        print(":jgf")
         //ANIMATE ME
         filterView.isHidden = false
         
