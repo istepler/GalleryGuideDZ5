@@ -28,19 +28,27 @@ class LoadingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ExhibitionsModel.instance.loadExhibitions()
+        ExhibitionsModel.instance.loadExhibitions(callback: moveNextView, url: .all)
+        //print(ExhibitionsModel.instance.exhibitions)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true) ///// DONT FORGET TO ASK
         print("apeared")
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+      
+    }
+
+    func moveNextView() {
         let storyboard = UIStoryboard.init(name: "Main", bundle: .main)
         let exhibitionsVC = storyboard.instantiateViewController(withIdentifier: "ExhibitionsViewController") as! ExhibitionsViewController
         exhibitionsVC.exhibitions = ExhibitionsModel.instance.exhibitions
-        
         self.navigationController?.setViewControllers([exhibitionsVC], animated: true)
-        
     }
-
-  
+   
 }

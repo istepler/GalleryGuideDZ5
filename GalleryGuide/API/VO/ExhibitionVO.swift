@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-struct ExhibitionVO {
+struct ExhibitionVO: Mappable {
     
     
     var id:String?
@@ -22,6 +22,9 @@ struct ExhibitionVO {
     var gallery:GalleryVO?
     var works: [WorkVO]?
     
+    init?(map: Map) {
+        
+    }
 
     mutating func mapping(map: Map) {
         id <- map["objectId"]

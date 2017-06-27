@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import ObjectMapper
 
-struct GalleryVO {
+struct GalleryVO: Mappable {
     
     var id:String!
     var name:String!
@@ -17,5 +18,17 @@ struct GalleryVO {
     var facebook:String?
     var city:String?
     
-    //TODO: other properties you should implement in your homework
+    init?(map: Map) {
+        
+    }
+    
+    mutating func mapping(map: Map) {
+        id <- map["id"]
+        name <- map["id"]
+        galleryDescription <- map["galleryDescription"]
+        email <- map["email"]
+        facebook <- map["facebook"]
+        city <- map["city"]
+        
+    }
 }

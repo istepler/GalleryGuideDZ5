@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import ObjectMapper
 
 
-struct WorkVO {
+struct WorkVO: Mappable {
     
     var id: String!
     var title: String?
@@ -17,7 +18,22 @@ struct WorkVO {
     var size: String?
     var type: String?
     var year: Int?
-    var imageName: String?
+    var imageInfo: WorkImageInfo?
+    
+    init?(map: Map) {
+        
+    }
+    
+    mutating func mapping(map: Map) {
+        id <- map["objectid"]
+        title <- map["title"]
+        author <- map["author"]
+        size <- map["size"]
+        type <- map["type"]
+        year <- map["year"]
+        imageInfo <- map["imgPicture"]
+        
+    }
         
 }
 

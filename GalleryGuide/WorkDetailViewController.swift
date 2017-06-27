@@ -21,7 +21,7 @@ class WorkDetailViewController: UIViewController {
     @IBOutlet weak var workSizeLabel: UILabel!
     
     
-    var work = WorkVO()
+    var work: WorkVO?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +34,12 @@ class WorkDetailViewController: UIViewController {
         contactButton.layer.cornerRadius = 30
         contactButton.layer.borderColor = UIColor.white.cgColor
         
+        guard let work = work else {
+            print("error")
+            return
+        }
         
-        workImageView.image = UIImage(named: work.imageName!)
+        //workImageView.image = UIImage(named: work.imageName!)
         authorLabel.text = work.author
         workNameLabel.text = work.title
         if let year = work.year {

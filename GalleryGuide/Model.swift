@@ -14,11 +14,17 @@ class ExhibitionsModel {
     
     private(set) var exhibitions: [ExhibitionVO] = []
     
-    func loadExhibitions() {
-       
-        let  dataLoader = DataLoader()
-        exhibitions = dataLoader.loadExhibitions()
-        
+    let request = APIDataLoader()
+    
+    
+    
+    func saveExhibitions(loadedObjects: [ExhibitionVO]) {
+        self.exhibitions = loadedObjects
+    }
+    
+    func loadExhibitions(callback:@escaping () -> Void, url: URLList) {
+        let request = APIDataLoader()
+        request.makeRequest(callback: callback, url: url)
     }
     
     

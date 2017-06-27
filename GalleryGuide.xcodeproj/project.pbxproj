@@ -15,7 +15,9 @@
 		353D82A41EF18DDE006BEBBA /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D82A31EF18DDE006BEBBA /* DetailsViewController.swift */; };
 		353D82AA1EF9D528006BEBBA /* WorkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D82A91EF9D528006BEBBA /* WorkCollectionViewCell.swift */; };
 		353D82AC1EF9D6F5006BEBBA /* WorkDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353D82AB1EF9D6F5006BEBBA /* WorkDetailViewController.swift */; };
+		356F0D001EFF11EA0030126C /* WorkImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356F0CFF1EFF11EA0030126C /* WorkImageInfo.swift */; };
 		358515C61EE2E10200D46D73 /* WorkVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358515C51EE2E10200D46D73 /* WorkVO.swift */; };
+		35DBE06C1F03031100FC0FC3 /* APIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DBE06B1F03031100FC0FC3 /* APIData.swift */; };
 		41345B2F1EDF2C43004B7EEB /* ExhibitionVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41345B2E1EDF2C43004B7EEB /* ExhibitionVO.swift */; };
 		41345B311EDF2D78004B7EEB /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41345B301EDF2D78004B7EEB /* DataLoader.swift */; };
 		41345B361EDF2EEB004B7EEB /* exhibitions.json in Resources */ = {isa = PBXBuildFile; fileRef = 41345B331EDF2EEB004B7EEB /* exhibitions.json */; };
@@ -38,7 +40,9 @@
 		353D82A31EF18DDE006BEBBA /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		353D82A91EF9D528006BEBBA /* WorkCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkCollectionViewCell.swift; sourceTree = "<group>"; };
 		353D82AB1EF9D6F5006BEBBA /* WorkDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkDetailViewController.swift; sourceTree = "<group>"; };
+		356F0CFF1EFF11EA0030126C /* WorkImageInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkImageInfo.swift; sourceTree = "<group>"; };
 		358515C51EE2E10200D46D73 /* WorkVO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkVO.swift; sourceTree = "<group>"; };
+		35DBE06B1F03031100FC0FC3 /* APIData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIData.swift; sourceTree = "<group>"; };
 		41345B2E1EDF2C43004B7EEB /* ExhibitionVO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExhibitionVO.swift; sourceTree = "<group>"; };
 		41345B301EDF2D78004B7EEB /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		41345B331EDF2EEB004B7EEB /* exhibitions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = exhibitions.json; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 			children = (
 				41345B2D1EDF2C06004B7EEB /* VO */,
 				41345B301EDF2D78004B7EEB /* DataLoader.swift */,
+				35DBE06B1F03031100FC0FC3 /* APIData.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -122,6 +127,7 @@
 				41345B2E1EDF2C43004B7EEB /* ExhibitionVO.swift */,
 				41345B391EDF3EFC004B7EEB /* GalleryVO.swift */,
 				358515C51EE2E10200D46D73 /* WorkVO.swift */,
+				356F0CFF1EFF11EA0030126C /* WorkImageInfo.swift */,
 			);
 			path = VO;
 			sourceTree = "<group>";
@@ -300,9 +306,11 @@
 				353D82951EEF221B006BEBBA /* Model.swift in Sources */,
 				353D82AA1EF9D528006BEBBA /* WorkCollectionViewCell.swift in Sources */,
 				353D82AC1EF9D6F5006BEBBA /* WorkDetailViewController.swift in Sources */,
+				35DBE06C1F03031100FC0FC3 /* APIData.swift in Sources */,
 				41345B311EDF2D78004B7EEB /* DataLoader.swift in Sources */,
 				353D829A1EEF2C10006BEBBA /* ExhibitionsViewController.swift in Sources */,
 				353D82A41EF18DDE006BEBBA /* DetailsViewController.swift in Sources */,
+				356F0D001EFF11EA0030126C /* WorkImageInfo.swift in Sources */,
 				41EBF2FC1ED5FFD700DBA60F /* ViewController.swift in Sources */,
 				353D82A21EEF41CF006BEBBA /* ExhibitionTVCell.swift in Sources */,
 				353D82981EEF277A006BEBBA /* LoadingViewController.swift in Sources */,

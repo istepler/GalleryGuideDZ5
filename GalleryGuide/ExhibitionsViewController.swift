@@ -24,6 +24,7 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         filterView.isHidden = true
         tableView.delegate = self
         tableView.dataSource = self
@@ -65,23 +66,28 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
         cell.exhibitionAuthorLabel.text = exhibition.authorName
         
         
+        guard let worksInExhibition = exhibition.works else {
+            
+            return cell
+        }
         
-        if !exhibition.works!.isEmpty {
+        if !worksInExhibition.isEmpty {
             
-            
-            let exhibitionWorkImageName = exhibition.works?[0].imageName
+            let exhibitionWorkImageName = exhibition.works?[0].imageInfo?.name
             //print(indexPath.row)
             //print(exhibitionWorkImage)
             
             
-            cell.exhibitionWorksImage.image = UIImage(named: exhibitionWorkImageName!)
             
-        } else {
+            if let imageName = exhibitionWorkImageName {
+                cell.exhibitionWorksImage.image = UIImage(named: imageName)
+                
+            } else {
+                
+                cell.exhibitionWorksImage.image = nil // what for shoud we do this, default values?????
+            }
             
-            cell.exhibitionWorksImage.image = nil // what for shoud we do this, default values?????
         }
-        
-        
         return cell
         
     }
@@ -96,9 +102,25 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
         let detailExhibition = ExhibitionsModel.instance.exhibitions[index!]
         destinationVC.detailExhibition = detailExhibition
         
-      
+        
         
     }
+    @IBAction func popularExhibitionsPressed(_ sender: Any) {
+        
+        ExhibitionsModel.instance.loadExhibitions(callback: tableView.reloadData, url: .popular)
+        filterView.isHidden = true
+        
+    }
+    @IBAction func lastChanceExhibitionPressed(_ sender: Any) {
+        ExhibitionsModel.instance.loadExhibitions(callback: tableView.reloadData, url: .lastchance)
+        filterView.isHidden = true
+    }
+    
+    @IBAction func openingExhibitionPressed(_ sender: Any) {
+        ExhibitionsModel.instance.loadExhibitions(callback: tableView.reloadData, url: .opening)
+        filterView.isHidden = true
+    }
+    
     
     @IBAction func filterButtonPressed(_ sender: UIButton) {
         //ANIMATE ME
@@ -110,4 +132,5 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
         filterView.isHidden = true
         
     }
+    
 }
