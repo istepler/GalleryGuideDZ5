@@ -41,6 +41,7 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        tableView.reloadData()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle { // когда создавать а когда оверрайдить переменную
@@ -52,14 +53,14 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return exhibitions.count
+        return ExhibitionsModel.instance.exhibitions.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "exhibitionCell", for: indexPath) as! ExhibitionTVCell
         
-        let exhibition = exhibitions[indexPath.row]
+        let exhibition = ExhibitionsModel.instance.exhibitions[indexPath.row]
         
         cell.galleryNameLabel.text = exhibition.gallery?.name
         cell.exhibitionNameLabel.text = exhibition.name
@@ -107,17 +108,17 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     @IBAction func popularExhibitionsPressed(_ sender: Any) {
         
-        ExhibitionsModel.instance.loadExhibitions(callback: tableView.reloadData, url: .popular)
+        ExhibitionsModel.instance.loadExhibitions(callback: refreshTableView, url: .popular)
         filterView.isHidden = true
         
     }
     @IBAction func lastChanceExhibitionPressed(_ sender: Any) {
-        ExhibitionsModel.instance.loadExhibitions(callback: tableView.reloadData, url: .lastchance)
+        ExhibitionsModel.instance.loadExhibitions(callback: refreshTableView, url: .lastchance)
         filterView.isHidden = true
     }
     
     @IBAction func openingExhibitionPressed(_ sender: Any) {
-        ExhibitionsModel.instance.loadExhibitions(callback: tableView.reloadData, url: .opening)
+        ExhibitionsModel.instance.loadExhibitions(callback: refreshTableView, url: .opening)
         filterView.isHidden = true
     }
     
@@ -131,6 +132,12 @@ class ExhibitionsViewController: UIViewController, UITableViewDelegate, UITableV
     @IBAction func backButtonPressed(_ sender: Any) { // diference beetween Sender - Any/// Button
         filterView.isHidden = true
         
+    }
+    
+    func refreshTableView() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
 }
